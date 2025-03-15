@@ -37,6 +37,7 @@ export const updateUserAbout = async (userId, data) => {
      content: data.content,
      updatedBy: data.updatedBy,
     },
+    
     {
       where: {
         userId,
