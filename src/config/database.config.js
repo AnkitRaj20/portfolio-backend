@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize";
 import dotenv from "dotenv";
+import mysql2 from 'mysql2';
 
 // Load environment variables from .env file (for local development)
 dotenv.config();
@@ -19,7 +20,8 @@ const getDbConfig = () => {
   const config = {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT || 3306,
-    dialect: process.env.DB_DIALECT,
+    dialect: 'mysql',
+  dialectModule: mysql2,
     timezone: "+05:30",
     logging: process.env.NODE_ENV === 'development',
     dialectOptions: {}
