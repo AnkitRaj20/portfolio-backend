@@ -27,6 +27,10 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get("/health", (req,res) => {
+  res.send("Server is running...");
+})
+
 
 // API routes
 app.use("/api/v1", router);

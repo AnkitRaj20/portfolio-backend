@@ -1,29 +1,32 @@
 import { Sequelize } from "sequelize";
 import dotenv from "dotenv";
-import fs from "fs";  // Required if you're using a certificate for SSL (optional)
 
-dotenv.config();
+dotenv.config();  // Load environment variables from .env file
 
-// Log the database configuration for debugging purposes
+// Ensure all necessary environment variables are present
+if (!process.env.DB_NAME || !process.env.DB_USER || !process.env.DB_PASSWORD || !process.env.DB_HOST || !process.env.DB_PORT || !process.env.DB_DIALECT) {
+  console.error('Missing required environment variables for database connection.');
+  process.exit(1); // Exit the application if any variable is missing
+}
 
-
-// Creating Sequelize instance with dynamic environment variables
+// Create Sequelize instance
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
   host: process.env.DB_HOST,
-  port: process.env.DB_PORT, // Use the DB_PORT from the .env file
-  dialect: process.env.DB_DIALECT, // Use MySQL dialect
-  timezone: "+05:30",
+  port: process.env.DB_PORT || 3306,  // Default MySQL port if not provided
+  dialect: process.env.DB_DIALECT, // 'mysql' as specified in .env
+  timezone: "+05:30",  // Adjust to your timezone
   dialectOptions: {
     ssl: {
-      required: true, // SSL connection is required for Aiven MySQL
-      rejectUnauthorized: false, // Change this based on your security needs
-      // ca: fs.readFileSync('path_to_ca_certificate'), // Uncomment if you have a certificate file (optional)
+      required: true, // SSL connection required for certain cloud providers like Aiven
+      rejectUnauthorized: false, // Adjust based on your security needs
+      // ca: fs.readFileSync('path_to_ca_certificate'), // Optional if you're using SSL certificates
     },
   },
-  logging: false, // Disable logging of SQL queries
+  logging: false, // Disable logging of SQL queries for production
 });
 
 export default sequelize;
+
 
 
 // import { Sequelize } from "sequelize";
