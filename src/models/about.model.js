@@ -30,6 +30,6 @@ const About = sequelize.define(
   }
 );
 
-console.log(await About.sync({ alter: true }));
+// console.log(await About.sync({ alter: true }));
 
 export default About;

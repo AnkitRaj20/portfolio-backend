@@ -38,6 +38,6 @@ const Users = sequelize.define(
   }
 );
 
-console.log(await Users.sync({ alter: true }));
+// console.log(await Users.sync({ alter: true }));
 
 export default Users;
